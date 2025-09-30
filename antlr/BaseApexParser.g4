@@ -466,9 +466,7 @@ expressionList
 expression
     : primary                                                                                         # primaryExpression
     | expression (DOT | QUESTIONDOT)
-        ( dotMethodCall
-        | anyId
-        )                                                                                             # dotExpression
+        ( dotMethodCall )                                                                             # dotExpression
     | expression LBRACK expression RBRACK                                                             # arrayExpression
     | methodCall                                                                                      # methodCallExpression
     | NEW creator                                                                                     # newExpression
@@ -518,7 +516,7 @@ primary
     ;
 
 methodCall
-    : id LPAREN expressionList? RPAREN
+    : qualifiedName LPAREN expressionList? RPAREN
     | THIS LPAREN expressionList? RPAREN
     | SUPER LPAREN expressionList? RPAREN
     ;
@@ -907,11 +905,22 @@ soslId
 
 // Identifiers
 
+// Custom field identifier rules
+customObjectCustomFieldIdentifier
+    : CustomObjectCustomFieldIdentifier
+    ;
+
+customObjectIdentifier
+    : CustomObjectIdentifier
+    ;
+
 // Some keywords can be used as general identifiers, this is likely an over simplification of the actual
 // rules but divining them from playing with Apex is very difficult. We could let any be used but that
 // can significantly impact the parser performance by creating ambiguities.
 id
     : Identifier
+    | customObjectCustomFieldIdentifier
+    | customObjectIdentifier
     | AFTER
     | BEFORE
     | GET
@@ -1070,6 +1079,8 @@ id
 // in the interests of reducing ambiguity
 anyId
     : Identifier
+    | customObjectCustomFieldIdentifier
+    | customObjectIdentifier
     // Apex Keywords
     | ABSTRACT
     | AFTER

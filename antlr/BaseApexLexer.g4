@@ -53,6 +53,7 @@ BEFORE        : 'before';
 BREAK         : 'break';
 CATCH         : 'catch';
 CLASS         : 'class';
+CONTAINS      : 'contains';
 CONTINUE      : 'continue';
 DELETE        : 'delete';
 DO            : 'do';
@@ -416,9 +417,27 @@ ATSIGN : '@';
 
 // §3.8 Identifiers (must appear after all keywords in the grammar)
 
+// Custom object custom field pattern (must appear before other identifier rules)
+CustomObjectCustomFieldIdentifier
+    :   JavaLetter JavaLetterOrDigit* '__c' '.' JavaLetter JavaLetterOrDigit* '__c'
+    | JavaLetter JavaLetterOrDigit* '.' JavaLetter JavaLetterOrDigit* '__c'
+    | JavaLetter JavaLetterOrDigit* '__x' '.' JavaLetter JavaLetterOrDigit* '__c'
+    | JavaLetter JavaLetterOrDigit* '__mdt' '.' JavaLetter JavaLetterOrDigit* '__c'
+    | JavaLetter JavaLetterOrDigit* '__b' '.' JavaLetter JavaLetterOrDigit* '__c'
+    ;
+
+CustomObjectIdentifier
+    :   JavaLetter JavaLetterOrDigit* '__c'
+    | JavaLetter JavaLetterOrDigit* '__x'
+    | JavaLetter JavaLetterOrDigit* '__mdt'
+    | JavaLetter JavaLetterOrDigit* '__b'
+    ;
+
 Identifier
     :   JavaLetter JavaLetterOrDigit*
     ;
+
+
 
 // Apex identifiers don't support non-ascii but we maintain Java rules here and post-validate
 // so we can give better error messages
@@ -458,4 +477,3 @@ COMMENT
 LINE_COMMENT
     :   '//' ~[\r\n]* -> channel(COMMENT_CHANNEL)
     ;
-

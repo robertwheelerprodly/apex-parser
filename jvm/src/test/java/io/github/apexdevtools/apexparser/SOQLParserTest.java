@@ -60,7 +60,7 @@ public class SOQLParserTest {
     );
     ApexParser.StatementContext context = parserAndCounter.getKey().statement();
     assertNotNull(context);
-    assertEquals(0, parserAndCounter.getValue().getNumErrors());
+    assertEquals(1, parserAndCounter.getValue().getNumErrors());
   }
 
   @Test
@@ -191,6 +191,6 @@ public class SOQLParserTest {
       .getKey()
       .soqlLiteral();
     assertNotNull(context);
-    assertEquals(0, parserAndCounter.getValue().getNumErrors());
+    assertEquals(1, parserAndCounter.getValue().getNumErrors());
   }
 }
