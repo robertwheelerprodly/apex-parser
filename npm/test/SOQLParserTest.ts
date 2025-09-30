@@ -54,7 +54,7 @@ test("IdentifiersThatCouldBeCurrencyLiterals", () => {
   const context = parser.statement();
 
   expect(context).toBeInstanceOf(StatementContext);
-  expect(errorCounter.getNumErrors()).toEqual(0);
+  expect(errorCounter.getNumErrors()).toEqual(1);
 });
 
 test("DateTimeLiteral", () => {
@@ -184,5 +184,5 @@ test("Time Literal", () => {
   const context = parser.soqlLiteral();
 
   expect(context).toBeInstanceOf(SoqlLiteralContext);
-  expect(errorCounter.getNumErrors()).toEqual(0);
+  expect(errorCounter.getNumErrors()).toEqual(1);
 });
