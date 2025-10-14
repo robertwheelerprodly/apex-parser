@@ -416,6 +416,10 @@ ATSIGN : '@';
 
 
 // §3.8 Identifiers (must appear after all keywords in the grammar)
+FLOW           : 'Flow';
+INTERVIEW      : 'Interview';
+CREATEINTERVIEW: 'createInterview';
+PAGEREFERENCE  : 'PageReference';
 
 // Custom object custom field pattern (must appear before other identifier rules)
 CustomObjectCustomFieldIdentifier
@@ -436,6 +440,8 @@ CustomObjectIdentifier
 Identifier
     :   JavaLetter JavaLetterOrDigit*
     ;
+
+
 
 
 

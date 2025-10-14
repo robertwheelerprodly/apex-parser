@@ -6,7 +6,7 @@
 
   <groupId>io.github.apex-dev-tools</groupId>
   <artifactId>apex-parser</artifactId>
-  <version>5.0.2-SNAPSHOT</version>
+  <version>5.0.3-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>apex-parser</name>
@@ -35,6 +35,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <antlr.target>${project.build.directory}/generated-sources/antlr</antlr.target>
+    <gpg.skip>true</gpg.skip>
   </properties>
 
   <repositories>
@@ -62,7 +63,6 @@
       <groupId>org.antlr</groupId>
       <artifactId>antlr4</artifactId>
       <version>4.13.2</version>
-      <scope>provided</scope>
     </dependency>
 
     <dependency>
@@ -210,6 +210,8 @@
           </execution>
         </executions>
         <configuration>
+          <!-- Skip signing if GPG is not available -->
+          <skip>${gpg.skip}</skip>
           <!-- Prevent gpg from using pinentry programs -->
           <gpgArguments>
             <arg>--pinentry-mode</arg>

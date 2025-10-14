@@ -144,6 +144,8 @@ modifier
 
 memberDeclaration
     : methodDeclaration
+    | pageReferenceExpression
+    | flowSpecificCall
     | constructorDeclaration
     | interfaceDeclaration
     | classDeclaration
@@ -315,6 +317,7 @@ statement
     | mergeStatement
     | runAsStatement
     | localVariableDeclarationStatement
+    | flowInterviewCreateInterView
     | expressionStatement
     ;
 
@@ -453,6 +456,9 @@ forUpdate
     : expressionList
     ;
 
+flowSpecificCall
+    : FLOW DOT INTERVIEW DOT expression (LPAREN expressionList? RPAREN)?
+    ;
 // EXPRESSIONS
 
 parExpression
@@ -521,6 +527,11 @@ methodCall
     | SUPER LPAREN expressionList? RPAREN
     ;
 
+
+flowInterviewCreateInterView
+    : FLOW DOT INTERVIEW DOT? CREATEINTERVIEW? LPAREN? value? COMMA? expressionList? RPAREN?
+    ;
+
 dotMethodCall
     : anyId LPAREN expressionList? RPAREN
     ;
@@ -531,6 +542,10 @@ creator
 
 createdName
     : idCreatedNamePair (DOT idCreatedNamePair)*
+    ;
+
+pageReferenceExpression
+    : NEW PAGEREFERENCE LPAREN value RPAREN
     ;
 
 idCreatedNamePair
@@ -575,17 +590,7 @@ soqlLiteral
 query
     : SELECT selectList
         FROM fromNameList
-        usingScope?
-        whereClause?
-        withClause?
-        groupByClause?
-        orderByClause?
-        limitClause?
-        offsetClause?
-        allRowsClause?
-        forClauses
-        (UPDATE updateList)?
-        ;
+        (WHERE logicalExpression)?;
 
 subQuery
     : SELECT subFieldList
@@ -913,6 +918,7 @@ customObjectCustomFieldIdentifier
 customObjectIdentifier
     : CustomObjectIdentifier
     ;
+
 
 // Some keywords can be used as general identifiers, this is likely an over simplification of the actual
 // rules but divining them from playing with Apex is very difficult. We could let any be used but that
