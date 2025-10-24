@@ -119,6 +119,7 @@ interfaceBody
 classBodyDeclaration
     : SEMI
     | STATIC? block
+    | NEW customObjectInstantiation
     | modifier* memberDeclaration
     ;
 
@@ -535,6 +536,10 @@ dotMethodCall
     : anyId LPAREN expressionList? RPAREN
     ;
 
+customObjectInstantiation
+    : customObjectIdentifier LPAREN (fieldAssignment (COMMA fieldAssignment)*)? RPAREN SEMI?
+    ;
+
 creator
     :  createdName (noRest | classCreatorRest | arrayCreatorRest | mapCreatorRest | setCreatorRest)
     ;
@@ -917,6 +922,10 @@ networkList
 soslId
     : id (DOT soslId)*;
 
+
+fieldAssignment
+    : anyId ASSIGN expression
+    ;
 // Identifiers
 
 // Custom field identifier rules
