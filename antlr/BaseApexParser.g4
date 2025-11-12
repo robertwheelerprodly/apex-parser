@@ -119,6 +119,7 @@ interfaceBody
 classBodyDeclaration
     : SEMI
     | STATIC? block
+    | NEW customObjectInstantiation
     | modifier* memberDeclaration
     ;
 
@@ -144,6 +145,8 @@ modifier
 
 memberDeclaration
     : methodDeclaration
+    | pageReferenceExpression
+    | flowSpecificCall
     | constructorDeclaration
     | interfaceDeclaration
     | classDeclaration
@@ -315,6 +318,7 @@ statement
     | mergeStatement
     | runAsStatement
     | localVariableDeclarationStatement
+    | flowInterviewCreateInterview
     | expressionStatement
     ;
 
@@ -453,6 +457,9 @@ forUpdate
     : expressionList
     ;
 
+flowSpecificCall
+    : FLOW DOT INTERVIEW DOT expression (LPAREN expressionList? RPAREN)?
+    ;
 // EXPRESSIONS
 
 parExpression
@@ -521,8 +528,16 @@ methodCall
     | SUPER LPAREN expressionList? RPAREN
     ;
 
+flowInterviewCreateInterview
+    : FLOW DOT INTERVIEW (DOT CREATEINTERVIEW LPAREN value COMMA expressionList? RPAREN)?
+    ;
+
 dotMethodCall
     : anyId LPAREN expressionList? RPAREN
+    ;
+
+customObjectInstantiation
+    : customObjectIdentifier LPAREN (fieldAssignment (COMMA fieldAssignment)*)? RPAREN SEMI?
     ;
 
 creator
@@ -531,6 +546,10 @@ creator
 
 createdName
     : idCreatedNamePair (DOT idCreatedNamePair)*
+    ;
+
+pageReferenceExpression
+    : NEW PAGEREFERENCE LPAREN value RPAREN
     ;
 
 idCreatedNamePair
@@ -903,6 +922,10 @@ networkList
 soslId
     : id (DOT soslId)*;
 
+
+fieldAssignment
+    : anyId ASSIGN expression
+    ;
 // Identifiers
 
 // Custom field identifier rules
@@ -913,6 +936,7 @@ customObjectCustomFieldIdentifier
 customObjectIdentifier
     : CustomObjectIdentifier
     ;
+
 
 // Some keywords can be used as general identifiers, this is likely an over simplification of the actual
 // rules but divining them from playing with Apex is very difficult. We could let any be used but that
